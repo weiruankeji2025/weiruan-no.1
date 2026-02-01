@@ -1,0 +1,250 @@
+{
+  "version": "1.0.0",
+  "author": "威软全网自动化工具",
+  "sites": {
+    "china": [
+      {
+        "id": "jd",
+        "name": "京东",
+        "domain": "jd.com",
+        "checkinUrl": "https://api.m.jd.com/client.action",
+        "enabled": true,
+        "category": "电商"
+      },
+      {
+        "id": "wps",
+        "name": "WPS",
+        "domain": "vip.wps.cn",
+        "checkinUrl": "https://vip.wps.cn/sign/v2",
+        "enabled": true,
+        "category": "办公"
+      },
+      {
+        "id": "bilibili",
+        "name": "哔哩哔哩",
+        "domain": "bilibili.com",
+        "checkinUrl": "https://api.bilibili.com/x/member/web/sign/updo",
+        "enabled": true,
+        "category": "视频"
+      },
+      {
+        "id": "iqiyi",
+        "name": "爱奇艺",
+        "domain": "iqiyi.com",
+        "checkinUrl": "https://tc.vip.iqiyi.com/taskCenter/task/queryUserTask",
+        "enabled": true,
+        "category": "视频"
+      },
+      {
+        "id": "aliyun",
+        "name": "阿里云盘",
+        "domain": "aliyundrive.com",
+        "checkinUrl": "https://member.aliyundrive.com/v1/activity/sign_in_list",
+        "enabled": true,
+        "category": "网盘"
+      },
+      {
+        "id": "baidu",
+        "name": "百度贴吧",
+        "domain": "tieba.baidu.com",
+        "checkinUrl": "https://tieba.baidu.com/sign/add",
+        "enabled": true,
+        "category": "社区"
+      },
+      {
+        "id": "netease_music",
+        "name": "网易云音乐",
+        "domain": "music.163.com",
+        "checkinUrl": "https://music.163.com/api/point/dailyTask",
+        "enabled": true,
+        "category": "音乐"
+      },
+      {
+        "id": "csdn",
+        "name": "CSDN",
+        "domain": "csdn.net",
+        "checkinUrl": "https://me.csdn.net/api/LuckyDraw_v2/signIn",
+        "enabled": true,
+        "category": "技术社区"
+      },
+      {
+        "id": "zhihu",
+        "name": "知乎",
+        "domain": "zhihu.com",
+        "checkinUrl": "https://www.zhihu.com/api/v4/creator/activities/growth",
+        "enabled": true,
+        "category": "问答"
+      },
+      {
+        "id": "douyu",
+        "name": "斗鱼",
+        "domain": "douyu.com",
+        "checkinUrl": "https://www.douyu.com/japi/roomuserlevel/apinc/checkIn",
+        "enabled": true,
+        "category": "直播"
+      },
+      {
+        "id": "huya",
+        "name": "虎牙",
+        "domain": "huya.com",
+        "checkinUrl": "https://udb.huya.com/index.php",
+        "enabled": true,
+        "category": "直播"
+      },
+      {
+        "id": "mihoyo",
+        "name": "米哈游(原神)",
+        "domain": "mihoyo.com",
+        "checkinUrl": "https://api-takumi.mihoyo.com/event/bbs_sign_reward/sign",
+        "enabled": true,
+        "category": "游戏"
+      },
+      {
+        "id": "weibo",
+        "name": "微博",
+        "domain": "weibo.com",
+        "checkinUrl": "https://api.weibo.com/2/checkin/add.json",
+        "enabled": true,
+        "category": "社交"
+      },
+      {
+        "id": "smzdm",
+        "name": "什么值得买",
+        "domain": "smzdm.com",
+        "checkinUrl": "https://zhiyou.smzdm.com/user/checkin/jsonp_checkin",
+        "enabled": true,
+        "category": "导购"
+      },
+      {
+        "id": "v2ex",
+        "name": "V2EX",
+        "domain": "v2ex.com",
+        "checkinUrl": "https://www.v2ex.com/mission/daily",
+        "enabled": true,
+        "category": "技术社区"
+      }
+    ],
+    "global": [
+      {
+        "id": "github",
+        "name": "GitHub",
+        "domain": "github.com",
+        "checkinUrl": "https://github.com",
+        "enabled": true,
+        "category": "开发"
+      },
+      {
+        "id": "steam",
+        "name": "Steam",
+        "domain": "steampowered.com",
+        "checkinUrl": "https://store.steampowered.com/points/shop",
+        "enabled": true,
+        "category": "游戏"
+      },
+      {
+        "id": "discord",
+        "name": "Discord",
+        "domain": "discord.com",
+        "checkinUrl": "https://discord.com/api/v9/users/@me",
+        "enabled": true,
+        "category": "社交"
+      },
+      {
+        "id": "reddit",
+        "name": "Reddit",
+        "domain": "reddit.com",
+        "checkinUrl": "https://www.reddit.com/api/v1/me",
+        "enabled": true,
+        "category": "社区"
+      },
+      {
+        "id": "twitter",
+        "name": "Twitter/X",
+        "domain": "twitter.com",
+        "checkinUrl": "https://api.twitter.com/1.1/account/verify_credentials.json",
+        "enabled": true,
+        "category": "社交"
+      },
+      {
+        "id": "spotify",
+        "name": "Spotify",
+        "domain": "spotify.com",
+        "checkinUrl": "https://api.spotify.com/v1/me",
+        "enabled": true,
+        "category": "音乐"
+      },
+      {
+        "id": "twitch",
+        "name": "Twitch",
+        "domain": "twitch.tv",
+        "checkinUrl": "https://api.twitch.tv/helix/users",
+        "enabled": true,
+        "category": "直播"
+      },
+      {
+        "id": "epic",
+        "name": "Epic Games",
+        "domain": "epicgames.com",
+        "checkinUrl": "https://www.epicgames.com/account/v2/ajaxCheckIn",
+        "enabled": true,
+        "category": "游戏"
+      },
+      {
+        "id": "amazon",
+        "name": "Amazon",
+        "domain": "amazon.com",
+        "checkinUrl": "https://www.amazon.com/gp/rewards",
+        "enabled": true,
+        "category": "电商"
+      },
+      {
+        "id": "netflix",
+        "name": "Netflix",
+        "domain": "netflix.com",
+        "checkinUrl": "https://www.netflix.com/api/shakti",
+        "enabled": true,
+        "category": "视频"
+      },
+      {
+        "id": "dropbox",
+        "name": "Dropbox",
+        "domain": "dropbox.com",
+        "checkinUrl": "https://api.dropboxapi.com/2/users/get_current_account",
+        "enabled": true,
+        "category": "网盘"
+      },
+      {
+        "id": "notion",
+        "name": "Notion",
+        "domain": "notion.so",
+        "checkinUrl": "https://www.notion.so/api/v3/getUserAnalyticsSettings",
+        "enabled": true,
+        "category": "办公"
+      },
+      {
+        "id": "linkedin",
+        "name": "LinkedIn",
+        "domain": "linkedin.com",
+        "checkinUrl": "https://www.linkedin.com/voyager/api/me",
+        "enabled": true,
+        "category": "职业"
+      },
+      {
+        "id": "duolingo",
+        "name": "Duolingo",
+        "domain": "duolingo.com",
+        "checkinUrl": "https://www.duolingo.com/api/1/users",
+        "enabled": true,
+        "category": "学习"
+      },
+      {
+        "id": "medium",
+        "name": "Medium",
+        "domain": "medium.com",
+        "checkinUrl": "https://medium.com/_/api/users",
+        "enabled": true,
+        "category": "博客"
+      }
+    ]
+  }
+}
