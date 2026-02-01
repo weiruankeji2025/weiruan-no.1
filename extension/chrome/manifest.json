@@ -1,0 +1,76 @@
+{
+  "manifest_version": 3,
+  "name": "威软全网自动化签到工具",
+  "version": "1.0.0",
+  "description": "全网主流网站自动签到工具，支持京东、WPS、B站、阿里云盘、网易云音乐、米哈游、GitHub、Steam等30+网站",
+  "author": "威软全网自动化工具",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "威软签到工具"
+  },
+  "permissions": [
+    "storage",
+    "alarms",
+    "notifications",
+    "cookies",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://*.jd.com/*",
+    "*://*.wps.cn/*",
+    "*://*.bilibili.com/*",
+    "*://*.aliyundrive.com/*",
+    "*://*.music.163.com/*",
+    "*://*.mihoyo.com/*",
+    "*://*.hoyolab.com/*",
+    "*://*.github.com/*",
+    "*://*.steampowered.com/*",
+    "*://*.discord.com/*",
+    "*://*.duolingo.com/*",
+    "*://*.smzdm.com/*",
+    "*://*.v2ex.com/*",
+    "*://*.csdn.net/*",
+    "*://*.zhihu.com/*",
+    "*://*.weibo.com/*",
+    "*://*.iqiyi.com/*",
+    "*://*.douyu.com/*",
+    "*://*.huya.com/*",
+    "*://*.tieba.baidu.com/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.jd.com/*",
+        "*://*.wps.cn/*",
+        "*://*.bilibili.com/*",
+        "*://*.aliyundrive.com/*",
+        "*://*.music.163.com/*",
+        "*://*.mihoyo.com/*",
+        "*://*.hoyolab.com/*",
+        "*://*.github.com/*",
+        "*://*.steampowered.com/*",
+        "*://*.smzdm.com/*",
+        "*://*.v2ex.com/*",
+        "*://*.csdn.net/*"
+      ],
+      "js": ["content/content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "options_page": "options/options.html"
+}

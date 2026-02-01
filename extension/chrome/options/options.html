@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>威软签到工具 - 设置</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .header h1 {
+      font-size: 28px;
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+    .header p {
+      color: #666;
+    }
+    .section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .section h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .form-group input[type="time"],
+    .form-group select {
+      width: 200px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .toggle:last-child {
+      border-bottom: none;
+    }
+    .toggle-label {
+      font-weight: 500;
+    }
+    .toggle-desc {
+      font-size: 13px;
+      color: #888;
+      margin-top: 4px;
+    }
+    .switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.3s;
+      border-radius: 26px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+    .sites-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .site-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #888;
+      font-size: 13px;
+    }
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #333;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>威软签到工具 设置</h1>
+      <p>自定义您的签到偏好</p>
+    </header>
+
+    <div class="section">
+      <h2>基本设置</h2>
+
+      <div class="toggle">
+        <div>
+          <div class="toggle-label">自动签到</div>
+          <div class="toggle-desc">每日自动执行签到任务</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="autoCheckin" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle">
+        <div>
+          <div class="toggle-label">显示通知</div>
+          <div class="toggle-desc">签到完成后显示系统通知</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="showNotification" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle">
+        <div>
+          <div class="toggle-label">页面内提醒</div>
+          <div class="toggle-desc">访问支持的网站时显示签到提醒</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="pageReminder" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="form-group" style="margin-top: 20px;">
+        <label>签到时间</label>
+        <input type="time" id="checkTime" value="08:00">
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>站点管理</h2>
+      <p style="color: #888; font-size: 13px; margin-bottom: 15px;">选择需要启用自动签到的站点</p>
+
+      <div class="sites-grid" id="sitesGrid">
+        <!-- 由JS动态生成 -->
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="saveBtn">保存设置</button>
+      <button class="btn btn-secondary" id="resetBtn">重置默认</button>
+    </div>
+
+    <footer class="footer">
+      威软全网自动化工具 v1.0.0
+    </footer>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const SITES = {
+      jd: '京东',
+      wps: 'WPS',
+      bilibili: '哔哩哔哩',
+      smzdm: '什么值得买',
+      v2ex: 'V2EX',
+      csdn: 'CSDN',
+      github: 'GitHub',
+      steam: 'Steam',
+      netease: '网易云音乐',
+      mihoyo: '米哈游',
+      aliyun: '阿里云盘',
+      zhihu: '知乎',
+      weibo: '微博'
+    };
+
+    let config = {};
+
+    // 加载配置
+    async function loadConfig() {
+      const result = await chrome.storage.local.get('config');
+      config = result.config || {
+        autoCheckin: true,
+        showNotification: true,
+        pageReminder: true,
+        checkTime: '08:00',
+        sites: {}
+      };
+
+      // 更新UI
+      document.getElementById('autoCheckin').checked = config.autoCheckin;
+      document.getElementById('showNotification').checked = config.showNotification;
+      document.getElementById('pageReminder').checked = config.pageReminder !== false;
+      document.getElementById('checkTime').value = config.checkTime || '08:00';
+
+      // 生成站点列表
+      const sitesGrid = document.getElementById('sitesGrid');
+      sitesGrid.innerHTML = Object.entries(SITES).map(([id, name]) => `
+        <div class="site-toggle">
+          <span>${name}</span>
+          <label class="switch">
+            <input type="checkbox" data-site-id="${id}" ${config.sites?.[id]?.enabled !== false ? 'checked' : ''}>
+            <span class="slider"></span>
+          </label>
+        </div>
+      `).join('');
+    }
+
+    // 保存配置
+    async function saveConfig() {
+      config.autoCheckin = document.getElementById('autoCheckin').checked;
+      config.showNotification = document.getElementById('showNotification').checked;
+      config.pageReminder = document.getElementById('pageReminder').checked;
+      config.checkTime = document.getElementById('checkTime').value;
+
+      // 站点配置
+      config.sites = config.sites || {};
+      document.querySelectorAll('[data-site-id]').forEach(input => {
+        const siteId = input.dataset.siteId;
+        config.sites[siteId] = config.sites[siteId] || {};
+        config.sites[siteId].enabled = input.checked;
+      });
+
+      await chrome.storage.local.set({ config });
+      showToast('设置已保存');
+    }
+
+    // 重置配置
+    async function resetConfig() {
+      if (confirm('确定要重置所有设置吗?')) {
+        await chrome.storage.local.remove('config');
+        loadConfig();
+        showToast('已重置为默认设置');
+      }
+    }
+
+    // 显示Toast
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    // 事件绑定
+    document.getElementById('saveBtn').onclick = saveConfig;
+    document.getElementById('resetBtn').onclick = resetConfig;
+
+    // 初始化
+    loadConfig();
+  </script>
+</body>
+</html>

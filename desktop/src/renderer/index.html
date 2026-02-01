@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+  <title>威软全网自动化签到工具</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* 侧边栏 */
+    .sidebar {
+      width: 240px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px 0;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .logo h1 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .logo span {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    .nav {
+      list-style: none;
+    }
+
+    .nav-item {
+      padding: 12px 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.2s;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.2);
+      border-left: 3px solid white;
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    /* 主内容区 */
+    .main {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .header h2 {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* 统计卡片 */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-card h3 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 8px;
+    }
+
+    .stat-card p {
+      font-size: 14px;
+      color: #888;
+    }
+
+    /* 站点列表 */
+    .sites-section {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .sites-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sites-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .sites-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .site-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.2s;
+    }
+
+    .site-item:hover {
+      background: #fafafa;
+    }
+
+    .site-item:last-child {
+      border-bottom: none;
+    }
+
+    .site-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .site-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .site-name {
+      font-weight: 500;
+    }
+
+    .site-category {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .site-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-badge {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .status-badge.success {
+      background: #e8f5e9;
+      color: #4caf50;
+    }
+
+    .status-badge.pending {
+      background: #fff3e0;
+      color: #ff9800;
+    }
+
+    .status-badge.unconfigured {
+      background: #f5f5f5;
+      color: #999;
+    }
+
+    .site-btn {
+      padding: 8px 16px;
+      border: 1px solid #ddd;
+      background: white;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .site-btn:hover {
+      border-color: #667eea;
+      color: #667eea;
+    }
+
+    .site-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* 日志 */
+    .logs-section {
+      margin-top: 30px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .logs-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .logs-content {
+      padding: 16px 24px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .log-item {
+      padding: 8px 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .log-item:last-child {
+      border-bottom: none;
+    }
+
+    .log-time {
+      color: #999;
+      margin-right: 12px;
+    }
+
+    .log-success { color: #4caf50; }
+    .log-error { color: #f44336; }
+    .log-info { color: #2196f3; }
+
+    /* 页脚 */
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      color: #999;
+      font-size: 13px;
+    }
+
+    /* 模态框 */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 400px;
+      max-width: 90%;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .modal-actions .btn {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo">
+        <h1>威软签到工具</h1>
+        <span>v1.0.0</span>
+      </div>
+
+      <ul class="nav">
+        <li class="nav-item active" data-page="dashboard">
+          <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+          <span>控制台</span>
+        </li>
+        <li class="nav-item" data-page="sites">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          <span>站点管理</span>
+        </li>
+        <li class="nav-item" data-page="logs">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+          <span>签到日志</span>
+        </li>
+        <li class="nav-item" data-page="settings">
+          <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94 0 .31.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+          <span>设置</span>
+        </li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <!-- 控制台页面 -->
+      <div id="page-dashboard" class="page">
+        <div class="header">
+          <h2>控制台</h2>
+          <button class="btn btn-primary" id="checkinAllBtn">一键全部签到</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3 id="stat-total">0</h3>
+            <p>支持站点</p>
+          </div>
+          <div class="stat-card">
+            <h3 id="stat-checked">0</h3>
+            <p>今日已签</p>
+          </div>
+          <div class="stat-card">
+            <h3 id="stat-pending">0</h3>
+            <p>待签到</p>
+          </div>
+          <div class="stat-card">
+            <h3 id="stat-streak">0</h3>
+            <p>最长连签</p>
+          </div>
+        </div>
+
+        <div class="sites-section">
+          <div class="sites-header">
+            <h3>站点状态</h3>
+          </div>
+          <div class="sites-list" id="sitesList">
+            <!-- 动态生成 -->
+          </div>
+        </div>
+
+        <div class="footer">
+          威软全网自动化工具 - 让签到更简单
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 配置模态框 -->
+  <div class="modal" id="configModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">配置站点</h3>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div id="modalBody">
+        <div class="form-group">
+          <label>Cookie / Token</label>
+          <textarea id="credentialInput" placeholder="请输入Cookie或Token..."></textarea>
+        </div>
+        <p style="font-size: 12px; color: #888;">
+          提示：请在浏览器登录对应网站后，通过开发者工具获取Cookie或Token
+        </p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="modalCancel" style="background: #f0f0f0;">取消</button>
+        <button class="btn btn-primary" id="modalSave">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+
+    // 站点图标
+    const SITE_ICONS = {
+      jd: '🛒', wps: '📄', bilibili: '📺', aliyun: '☁️',
+      netease: '🎵', mihoyo: '🎮', github: '🐙', steam: '🎮',
+      smzdm: '💰', v2ex: '💻', csdn: '👨‍💻', zhihu: '❓',
+      weibo: '📱', duolingo: '🎓', discord: '💬'
+    };
+
+    let sites = [];
+    let status = {};
+    let currentEditingSite = null;
+
+    // 初始化
+    async function init() {
+      sites = await ipcRenderer.invoke('get-sites');
+      status = await ipcRenderer.invoke('get-status');
+      updateUI();
+    }
+
+    // 更新UI
+    function updateUI() {
+      // 统计
+      const total = sites.length;
+      const checked = Object.values(status).filter(s => s.checkedToday).length;
+      const pending = Object.values(status).filter(s => s.enabled && !s.checkedToday).length;
+      const maxStreak = Math.max(...Object.values(status).map(s => s.streak || 0), 0);
+
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-checked').textContent = checked;
+      document.getElementById('stat-pending').textContent = pending;
+      document.getElementById('stat-streak').textContent = maxStreak;
+
+      // 站点列表
+      const sitesList = document.getElementById('sitesList');
+      sitesList.innerHTML = sites.map(site => {
+        const siteStatus = status[site.id] || {};
+        let statusClass = 'unconfigured';
+        let statusText = '未配置';
+
+        if (siteStatus.checkedToday) {
+          statusClass = 'success';
+          statusText = '已签到';
+        } else if (siteStatus.enabled) {
+          statusClass = 'pending';
+          statusText = '待签到';
+        }
+
+        return `
+          <div class="site-item">
+            <div class="site-info">
+              <div class="site-icon">${SITE_ICONS[site.id] || '🌐'}</div>
+              <div>
+                <div class="site-name">${site.name}</div>
+                <div class="site-category">${site.category || ''}</div>
+              </div>
+            </div>
+            <div class="site-actions">
+              <span class="status-badge ${statusClass}">${statusText}</span>
+              <button class="site-btn" onclick="openConfig('${site.id}')">配置</button>
+              <button class="site-btn" onclick="checkinSite('${site.id}')" ${siteStatus.checkedToday ? 'disabled' : ''}>签到</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 一键签到
+    document.getElementById('checkinAllBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('checkinAllBtn');
+      btn.disabled = true;
+      btn.textContent = '签到中...';
+
+      try {
+        const results = await ipcRenderer.invoke('checkin-all');
+        alert(`签到完成！成功 ${results.filter(r => r.success).length} 个`);
+        await init();
+      } catch (error) {
+        alert('签到失败: ' + error.message);
+      }
+
+      btn.disabled = false;
+      btn.textContent = '一键全部签到';
+    });
+
+    // 单站点签到
+    async function checkinSite(siteId) {
+      try {
+        const result = await ipcRenderer.invoke('checkin', siteId);
+        if (result.success) {
+          alert(`${sites.find(s => s.id === siteId)?.name}: ${result.message}`);
+        } else {
+          alert(`签到失败: ${result.message}`);
+        }
+        await init();
+      } catch (error) {
+        alert('签到失败: ' + error.message);
+      }
+    }
+
+    // 打开配置
+    function openConfig(siteId) {
+      currentEditingSite = siteId;
+      const site = sites.find(s => s.id === siteId);
+      document.getElementById('modalTitle').textContent = `配置 ${site?.name || siteId}`;
+      document.getElementById('credentialInput').value = '';
+      document.getElementById('configModal').classList.add('show');
+    }
+
+    // 关闭模态框
+    document.getElementById('modalClose').onclick = () => {
+      document.getElementById('configModal').classList.remove('show');
+    };
+
+    document.getElementById('modalCancel').onclick = () => {
+      document.getElementById('configModal').classList.remove('show');
+    };
+
+    // 保存配置
+    document.getElementById('modalSave').onclick = async () => {
+      const credential = document.getElementById('credentialInput').value.trim();
+      if (!credential) {
+        alert('请输入凭证');
+        return;
+      }
+
+      await ipcRenderer.invoke('save-credentials', currentEditingSite, credential);
+      document.getElementById('configModal').classList.remove('show');
+      alert('配置已保存');
+      await init();
+    };
+
+    // 监听签到完成
+    ipcRenderer.on('checkin-complete', async () => {
+      await init();
+    });
+
+    // 启动
+    init();
+  </script>
+</body>
+</html>
